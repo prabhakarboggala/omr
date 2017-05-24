@@ -75,4 +75,5 @@ ifneq (,$(findstring osx,$(OMR_HOST_OS)))
     MODULE_SHARED_LIBS += pthread
 endif
 
+CPPFLAGS += -DALPINE
 include $(top_srcdir)/omrmakefiles/rules.mk

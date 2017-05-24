@@ -29,9 +29,7 @@ class TR_CallStackIterator
 public:
    TR_CallStackIterator() {}
    virtual void printStackBacktrace(TR::Compilation *comp);
-
 protected:
-
    virtual bool getNext() { return false; }
    virtual const char *getProcedureName() { return NULL; }
    virtual uintptr_t getOffsetInProcedure() {return 0; }
@@ -67,8 +65,7 @@ typedef TR_PPCCallStackIterator TR_CallStackIteratorImpl;
 class TR_LinuxCallStackIterator : public TR_CallStackIterator
    {
 public:
-   TR_LinuxCallStackIterator() {}
-   virtual void printStackBacktrace(TR::Compilation *comp);
+   void printStackBacktrace(TR::Compilation *comp);
 private:
    void printSymbol(int32_t frame, char *sig, TR::Compilation *comp);
    friend class TR_CallStackIterator;

@@ -29,7 +29,7 @@
 #include <sys/stat.h>
 #if defined(LINUX)
 #include <sys/prctl.h>
-#include <linux/prctl.h>
+//#include <linux/prctl.h>
 #include <sys/resource.h>
 #endif
 #include <elf.h>

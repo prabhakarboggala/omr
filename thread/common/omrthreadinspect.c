@@ -290,6 +290,8 @@ omrthread_monitor_get_name(omrthread_monitor_t monitor)
  * @retval J9THREAD_ERR_GETSTACK for stack range retrieval failure. thread->errno set
  * @retval J9THREAD_ERR_UNSUPPORTED_PLAT for unsupported platform
  */
+#if _GLIBCXX_USE_C99
+#if _GLIBCXX_USE_C99 || defined __UCLIBC__
 uintptr_t
 omrthread_get_stack_range(omrthread_t thread, void **stackStart, void **stackEnd)
 {
@@ -345,6 +347,9 @@ omrthread_get_stack_range(omrthread_t thread, void **stackStart, void **stackEnd
 	return J9THREAD_ERR_UNSUPPORTED_PLAT;
 #endif /* defined(LINUX) */
 }
+#endif
+#endif
+
 
 #if (defined(OMR_THR_JLM))
 /*

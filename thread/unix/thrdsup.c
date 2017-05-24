@@ -26,7 +26,7 @@
 
 #if defined(LINUX)
 #include <sys/prctl.h>
-#include <linux/prctl.h>
+//#include <linux/prctl.h>
 #endif /* defined(LINUX) */
 
 #if (defined(LINUX) || defined(OSX)) && defined(J9X86)

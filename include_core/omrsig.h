@@ -15,7 +15,6 @@
  * Contributors:
  *    Multiple authors (IBM Corp.) - initial implementation and documentation
  *******************************************************************************/
-
 #include <signal.h>
 #if defined(WIN32)
 /* windows.h defined UDATA.  Ignore its definition */
@@ -28,7 +27,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#if defined(__GLIBC__) && (__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 21)
+#if defined(__GLIBC__) && (__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 21)|| defined(ALPINE)
 #undef OMR_OMRSIG_HAS_SIGVEC
 #else /* defined(__GLIBC__) && (__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 21) */
 #define OMR_OMRSIG_HAS_SIGVEC
@@ -121,7 +120,7 @@ int sigvec(int sig, const struct sigvec *vec, struct sigvec *ovec) __THROW;
 #endif /* defined(OSX) */
 #endif /* !defined(AIXPPC) */
 #endif /* !defined(J9ZOS390) */
-#if defined(LINUX)
+#if defined(LINUX)&&!defined(ALPINE) 
 __sighandler_t __sysv_signal(int sig, __sighandler_t handler) __THROW;
 sighandler_t ssignal(int sig, sighandler_t handler) __THROW;
 #endif /* defined(LINUX) */

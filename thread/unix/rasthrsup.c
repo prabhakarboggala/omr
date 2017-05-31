@@ -23,7 +23,7 @@
 #include "omrthread.h"
 
 #if defined(LINUX)
-#if __GLIBC_PREREQ(2,4)
+#if __GLIBC_PREREQ
 #include <sys/syscall.h>
 #endif /* __GLIBC_PREREQ(2,4) */
 #elif defined(OSX)
@@ -36,7 +36,7 @@
  * This is required to pick up correct thread IDs on Linux
  */
 
-#if !__GLIBC_PREREQ(2,4)
+#if !__GLIBC_PREREQ
 /**
  * Even though we don't use errno directly, it is used by the _syscall0 macro and some
  * distros incorrectly assume that errno is an int, in their header.  Including it here will
@@ -57,10 +57,10 @@ omrthread_get_ras_tid(void)
 	uintptr_t threadID = 0;
 
 #if defined(LINUX)
-#if __GLIBC_PREREQ(2,4)
+#if __GLIBC_PREREQ
 	/* Want thread id that shows up in /proc etc.  gettid() does not cut it */
 	threadID = syscall(SYS_gettid);
-#else /* __GLIBC_PREREQ(2,4) */
+#else /* __GLIBC_PREREQ */
 	/*
 	 * On Linux (and probably other Unices but testing to follow), pthread_self is not the kernel's thread ID!
 	 * We will use the gettid call to get the actual ID of the thread

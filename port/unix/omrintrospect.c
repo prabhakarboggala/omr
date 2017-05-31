@@ -27,6 +27,10 @@
 #define _GNU_SOURCE
 #endif /* defined(LINUX) */
 
+
+#define sigval_t union sigval
+
+
 #include <pthread.h>
 #include <ucontext.h>
 #include <sched.h>

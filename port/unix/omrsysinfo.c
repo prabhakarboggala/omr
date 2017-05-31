@@ -21,6 +21,11 @@
  * @ingroup Port
  * @brief System information
  */
+#define PROC_PARTITIONS PROC_FS_ROOT "partitions"
+#define PROC_DISKSTATS  PROC_FS_ROOT "diskstats"
+#ifndef HZ
+#define HZ 100
+#endif
 
 #if 0
 #define ENV_DEBUG

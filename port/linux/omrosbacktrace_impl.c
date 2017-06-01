@@ -21,13 +21,16 @@
  * @ingroup Port
  * @brief Stack backtracing support
  */
+#include <execinfo.h>
+#include <signal.h>
 
+#define UNW_LOCAL_ONLY
 #define _GNU_SOURCE
 
 #include "omrport.h"
 #include "omrportpriv.h"
 #include "omrsignal_context.h"
-
+#include <libunwind.h>
 #include <dlfcn.h>
 #include <execinfo.h>
 #include <stdlib.h>
@@ -44,6 +47,7 @@ struct frameData {
 };
 
 
+
 /*
  * NULL handler. We only care about preventing the signal from propagating up the call stack, no need to do
  * anything in the handler.
@@ -57,11 +61,44 @@ handler(struct OMRPortLibrary *portLibrary, uint32_t gpType, void *gpInfo, void 
 /*
  * Wrapped call to libc backtrace function
  */
+
+
+
+
+
+int show_backtrace( void ** array,int size)
+{
+	
+  unw_cursor_t cursor;
+  unw_context_t context;
+
+  // Initialize cursor to current frame for local unwinding.
+  unw_getcontext(&context);
+  unw_init_local(&cursor, &context);
+  int cnt=0;
+  // Unwind frames one by one, going up the frame stack.
+  while (unw_step(&cursor) > 0 && cnt < size) {
+    unw_word_t pc;
+    unw_get_reg(&cursor, UNW_REG_IP, &pc);
+    if (pc == 0) {
+      break;
+    }
+    array[cnt++]=(long *)pc;
+  }
+
+  return cnt;
+} 
+
+
+
+
+
+
 uintptr_t
 protectedBacktrace(struct OMRPortLibrary *port, void *arg)
 {
 	struct frameData *addresses = (struct frameData *)arg;
-	return backtrace(addresses->address_array, addresses->capacity);
+	return show_backtrace(addresses->address_array, addresses->capacity);
 }
 
 /*
@@ -89,10 +126,9 @@ backtrace_sigprotect(struct OMRPortLibrary *portLibrary, J9PlatformThread *threa
 
 		return ret;
 	} else {
-		return backtrace(address_array, capacity);
+		return show_backtrace(address_array, capacity);
 	}
 }
-
 
 
 /* This function constructs a backtrace from a CPU context. Generally there are only one or two

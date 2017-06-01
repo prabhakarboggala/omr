@@ -21,7 +21,6 @@
  * @ingroup Port
  * @brief process introspection support
  */
-
 #if defined(LINUX)
 /* _GNU_SOURCE forces GLIBC_2.0 sscanf/vsscanf/fscanf for RHEL5 compatability */
 #define _GNU_SOURCE
@@ -1012,7 +1011,7 @@ suspend_all_preemptive(struct PlatformWalkData *data)
 	 */
 	do {
 		int i = 0;
-		sigval_t val;
+	      union sigval val;
 		val.sival_ptr = data;
 
 		/* fire off enough signals to pause all threads in the process barring us */
@@ -1393,7 +1392,7 @@ setup_native_thread(J9ThreadWalkState *state, thread_context *sigContext, int he
 			memcpy(state->current_thread->context, ((J9UnixSignalInfo *)sigContext)->platformSignalInfo.context, size);
 		} else if (state->current_thread->thread_id == omrthread_get_ras_tid()) {
 			/* return context for current thread */
-			getcontext((ucontext_t *)state->current_thread->context);
+			sigsetjmp((ucontext_t *)state->current_thread->context);
 		} else {
 			memcpy(state->current_thread->context, (void *)data->thread->context, size);
 		}
@@ -1707,7 +1706,7 @@ omrintrospect_threads_nextDo(J9ThreadWalkState *state)
 			} else if (timedOut(data->state->deadline1) || data->error) {
 				break;
 			} else {
-				sigval_t val;
+			        union sigval val;
 				val.sival_ptr = data;
 
 				/*

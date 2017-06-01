@@ -218,7 +218,7 @@ void TR_LinuxCallStackIterator::printStackBacktrace(TR::Compilation *comp)
    void *trace[MAX_TRACE_SIZE];
 
    auto size = backtrace(trace, MAX_TRACE_SIZE);
-   char **symbols = backtrace_symbols(trace, size);
+   char **symbols =backtrace_symbols(trace, size);
    for (uint32_t i = SKIP_FRAMES; i < size; ++i)
       {
       char *signature = symbols[i];

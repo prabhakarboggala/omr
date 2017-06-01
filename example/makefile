@@ -100,7 +100,7 @@ ifeq (gcc,$(OMR_TOOLCHAIN))
   MODULE_SHARED_LIBS += stdc++
 endif
 ifeq (linux,$(OMR_HOST_OS))
-  MODULE_SHARED_LIBS += rt pthread
+  MODULE_SHARED_LIBS += rt pthread unwind-x86_64
 endif
 ifeq (osx,$(OMR_HOST_OS))
   MODULE_SHARED_LIBS += iconv pthread

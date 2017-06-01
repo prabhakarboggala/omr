@@ -26,6 +26,13 @@
 #define ENV_DEBUG
 #endif
 
+#define PROC_PARTITIONS PROC_FS_ROOT "partitions"
+#define PROC_DISKSTATS  PROC_FS_ROOT "diskstats"
+ 
+#ifndef HZ
+#define HZ 100
+#endif
+
 #if defined(LINUX)
 #define _GNU_SOURCE
 #elif defined(OSX)

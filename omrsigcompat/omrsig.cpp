@@ -16,6 +16,11 @@
  *    Multiple authors (IBM Corp.) - initial API and implementation and/or initial documentation
  *******************************************************************************/
 
+#if defined(ALPINE)
+#define __THROW throw()
+#endif 
+
+
 #if defined(J9ZOS390)
 #define _OPEN_THREADS 2
 #define _UNIX03_SOURCE
@@ -34,6 +39,7 @@
 #include <pthread.h>
 #endif /* !defined(WIN32) */
 #include <string.h>
+#include<signal.h>
 
 #include "omrsig.h"
 #include "omrsig_internal.hpp"
@@ -397,7 +403,7 @@ omrsig_sigaction_internal(int signum, const struct sigaction *act, struct sigact
 	return rc;
 }
 
-#if defined(LINUX)
+#if defined(LINUX) && !defined(ALPINE) 
 
 __sighandler_t
 __sysv_signal(int sig, __sighandler_t handler) __THROW

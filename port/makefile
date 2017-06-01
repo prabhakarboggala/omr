@@ -24,4 +24,6 @@ ARTIFACT_TYPE := archive
 
 include ./port_objects.mk
 
+MODULE_CPPFLAGS += -D__x86_64__
+
 include $(top_srcdir)/omrmakefiles/rules.mk

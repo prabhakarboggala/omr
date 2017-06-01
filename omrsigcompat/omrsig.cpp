@@ -15,6 +15,9 @@
  * Contributors:
  *    Multiple authors (IBM Corp.) - initial API and implementation and/or initial documentation
  *******************************************************************************/
+#if defined(ALPINE)
+#define __THROW throw()
+#endif 
 
 #if defined(J9ZOS390)
 #define _OPEN_THREADS 2

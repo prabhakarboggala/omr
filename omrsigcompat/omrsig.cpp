@@ -384,7 +384,7 @@ omrsig_sigaction_internal(int signum, const struct sigaction *act, struct sigact
 	return rc;
 }
 
-#if defined(LINUX)
+#if defined(LINUX) && !defined(ALPINE)
 
 __sighandler_t
 __sysv_signal(int sig, __sighandler_t handler) __THROW
